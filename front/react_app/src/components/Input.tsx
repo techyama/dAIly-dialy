@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export const Input = () => {
-  const [state, setState] = useState<any | null>();
+  const [state, setState] = useState<string | number>();
   return (
     <>
       <input
