@@ -1,0 +1,15 @@
+# 基本的にはfrontのものと同じ
+FROM node:20-alpine
+# docker-compose側から、コンテナ起動時のディレクトリ位置を引数として受け取り、そこで起動するよう設定
+ARG BACKEND_WORKDIR
+WORKDIR ${BACKEND_WORKDIR}
+# 時刻は、日本時間のものに設定しておく
+ENV TZ Asia/Tokyo
+# dockerイメージのビルド時に実行されるコマンド
+# パッケージマネージャapkのアップデート
+RUN apk update
+RUN apk upgrade 
+# gitのインストール
+RUN apk add git vim
+# NestJSをグローバルインストールしておく
+RUN npm install -g @nestjs/cli
