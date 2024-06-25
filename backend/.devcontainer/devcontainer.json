@@ -1,0 +1,19 @@
+// 基本的にはfrontのものと同じ
+{
+	"name": "backend-vscode",
+	"dockerComposeFile": "../../docker-compose.yml",
+	"service": "backend",
+	"workspaceFolder": "/workspace/backend",
+    // 拡張機能の設定(git、Prettier、ESLint、Prismaに関する拡張機能を設定)
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"mhutchie.git-graph",
+				"esbenp.prettier-vscode",
+				"dbaeumer.vscode-eslint",
+				"Prisma.prisma"
+			]
+		}
+	},
+	"shutdownAction": "none"
+}
