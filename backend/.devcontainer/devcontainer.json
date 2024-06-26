@@ -4,6 +4,7 @@
 	"dockerComposeFile": "../../docker-compose.yml",
 	"service": "backend",
 	"workspaceFolder": "/workspace/backend",
+  "postCreateCommand": "apk update && apk add -U --no-cache openssh",
     // 拡張機能の設定(git、Prettier、ESLint、Prismaに関する拡張機能を設定)
 	"customizations": {
 		"vscode": {
