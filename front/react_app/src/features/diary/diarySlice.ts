@@ -4,6 +4,7 @@ import axios from "axios";
 export interface DiaryState {
   entries: string[];
   status: "idle" | "loading" | "failed";
+
   message: string | null;
 }
 
@@ -13,6 +14,7 @@ const initialState: DiaryState = {
   message: null,
 };
 
+// 謎の型推論エラーが出るが無視
 export const addEntry = createAsyncThunk<string, string>(
   "diary/addEntry",
   async (entry: string) => {
