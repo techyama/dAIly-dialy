@@ -1,10 +1,12 @@
 {
 	"name": "front-vscode",
     // docker-compose.ymlのfrontにアタッチする
-    "dockerComposeFile": "../../docker-compose.yml",
+  "dockerComposeFile": "../../docker-compose.yml",
 	"service": "front",
     // 起動ディレクトリの設定
 	"workspaceFolder": "/workspace/front",
+	  // sshのインストール
+	"postCreateCommand": "apk update && apk add -U --no-cache openssh",
     // 拡張機能の設定(git、Prettier、ESLint、Reactに関する拡張機能を設定)
 	"customizations": {
 		"vscode": {

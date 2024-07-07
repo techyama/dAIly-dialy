@@ -15,8 +15,13 @@
     "*": "prettier --write"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
+    "axios": "^1.7.2",
+    "deepl-node": "^1.13.0",
+    "openai": "^4.52.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-redux": "^9.1.2"
   },
   "devDependencies": {
     "@types/prop-types": "^15.7.12",
