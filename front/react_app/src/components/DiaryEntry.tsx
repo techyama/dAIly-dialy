@@ -31,8 +31,7 @@ const DiaryEntry: React.FC = () => {
     const baseNum: number = 20;
 
     // 処理中または入力文が30語未満の時
-    // return status === "loading" || count < baseNum ? true : false;
-    return false;
+    return status === "loading" || count < baseNum ? true : false;
   };
 
   return (
