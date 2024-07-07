@@ -1,26 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { API_URL } from "../constants";
 
 export interface DiaryState {
-  entries: string[];
   status: "idle" | "loading" | "failed";
-
-  message: string | null;
-}
-
-const initialState: DiaryState = {
-  entries: [],
-  status: "idle",
-  message: null,
+  flashMessage: string | null;
+  feedback: string | null;
 };
 
+const initialState: DiaryState = {
+  status: "idle",
+  flashMessage: null,
+  feedback: null,
+};
+
+const ENDPOINT = `${API_URL}/diary`;
+
 // 謎の型推論エラーが出るが無視
-export const addEntry = createAsyncThunk<string, string>(
-  "diary/addEntry",
+export const sendContent = createAsyncThunk<string, string>(
+  "diary/sendContent",
   async (entry: string) => {
-    const response = await axios.post("http://localhost:3000/diaries", {
-      entry,
+    const response = await axios.post(`${ENDPOINT}/register`, {
+      // 質問内容
+      messages: [
+        {
+          'role': 'user',
+          'content': entry
+        }
+      ],
     });
+    // 回答の取得
     return response.data;
   }
 );
@@ -31,18 +40,18 @@ export const diarySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(addEntry.pending, (state) => {
+      .addCase(sendContent.pending, (state) => {
         state.status = "loading";
-        state.message = null;
+        state.flashMessage = null;
       })
-      .addCase(addEntry.fulfilled, (state, action) => {
+      .addCase(sendContent.fulfilled, (state, action) => {
         state.status = "idle";
-        state.entries.push(action.payload);
-        state.message = "日記が送信されました！";
+        state.flashMessage = "Diary registered!";
+        state.feedback = action.payload;
       })
-      .addCase(addEntry.rejected, (state) => {
+      .addCase(sendContent.rejected, (state) => {
         state.status = "failed";
-        state.message = "送信に失敗しました。";
+        state.flashMessage = "Registration failed.";
       });
   },
 });

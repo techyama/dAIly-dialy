@@ -1,39 +1,71 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
-import { addEntry } from "../features/diary/diarySlice";
+import { sendContent } from "../features/diary/diarySlice";
 
 const DiaryEntry: React.FC = () => {
-  const [entry, setEntry] = useState<string>("");
+  const [diaryContent, setContent] = useState<string>("");
+  const [count, setCount] = useState<number>(0);
   const dispatch = useAppDispatch();
-  const message = useAppSelector((state) => state.diary.message);
+  const flashMessage = useAppSelector((state) => state.diary.flashMessage);
   const status = useAppSelector((state) => state.diary.status);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(addEntry(entry));
-    setEntry("");
+    dispatch(sendContent(diaryContent));
+    setContent("");
+    setCount(0);
+  };
+
+  const CountCheck = (m: string) => {
+    // 空白、タブ、改行を除き単語ごとに配列に格納
+    const spaces: RegExpMatchArray | null = m.match(/\S+/g);
+
+    if (spaces !== null) {
+      setCount(spaces.length);
+    }else {
+      setCount(0);
+    }
+  };
+
+  const isCanSubmitting = (): boolean => {
+    const baseNum: number = 20;
+
+    // 処理中または入力文が30語未満の時
+    // return status === "loading" || count < baseNum ? true : false;
+    return false;
   };
 
   return (
-    <div className="max-w-screen-lg mx-auto mt-10 p-5 bg-white rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-5">Let's write diary!</h2>
-      <form onSubmit={handleSubmit}>
-        <textarea
-          className="w-full h-40 p-2 border border-gray-300 rounded mb-4"
-          value={entry}
-          onChange={(e) => setEntry(e.target.value)}
-          disabled={status === "loading"}
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
-          disabled={status === "loading"}
-        >
-          {status === "loading" ? "送信中..." : "送信"}
-        </button>
-      </form>
-      {message && <p className="mt-4 text-green-500">{message}</p>}
-    </div>
+    <>
+      <div className="w-full max-w-4xl mt-40 p-4 bg-white rounded shadow-md">
+        <h2 className="text-2xl font-bold mb-5">Let's write a diary! What happened today?</h2>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            className="w-full h-40 p-2 border border-gray-300 text-lg rounded mb-4"
+            value={diaryContent}
+            onChange={(e) => {
+              setContent(e.target.value);
+              CountCheck(e.target.value);
+            }}
+            disabled={status === "loading"}
+            placeholder='Today is the day I started my "DAILY DIARY".
+            I want to record my daily feelings and thoughts in English and expand my range of expression.
+            I look forward to learning English in the future!'
+          />
+          <button
+            type="submit"
+            className="w-full bg-cyan-800 text-white text-lg py-2 rounded hover:bg-cyan-700 transition"
+            disabled={isCanSubmitting()}
+          >
+            {status === "loading" ? "Registering..." : "Registration"}
+          </button>
+        </form>
+        {flashMessage && <p className="mt-4 text-green-500">{flashMessage}</p>}
+      </div>
+      <p className="float-right">
+        {count} word
+      </p>
+    </>
   );
 };
 
