@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { API_URL, DEVUSER } from "../constants";
+import { API_URL, DEVUSER } from "../../utils/constants";
 
 export interface DiaryState {
   status: "idle" | "loading" | "failed";

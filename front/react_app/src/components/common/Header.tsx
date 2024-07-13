@@ -7,17 +7,17 @@ const Header: React.FC = () => {
         <h1 className="text-2xl font-bold">dAIly diary</h1>
         <ul className="flex space-x-5 text-xl">
           <li>
-            <a href="#" className="hover:underline">
+            <a href="/" className="hover:underline">
               Home
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline">
+            <a href="/diarys" className="hover:underline">
               My Diary
             </a>
           </li>
           <li>
-            <a href="#" className="hover:underline">
+            <a href="/profile" className="hover:underline">
               Profile
             </a>
           </li>

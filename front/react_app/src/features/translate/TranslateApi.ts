@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_URL, TARGET_LANG_JAPAN, TARGET_LANG_US } from "../constants"
+import { API_URL, TARGET_LANG_JAPAN, TARGET_LANG_US } from "../../utils/constants"
 
 const ENDPOINT = `${API_URL}/translate`;
 
