@@ -1,8 +1,14 @@
 // APIリクエスト用型定義
-export class RequestDto {
+export class GptDto {
   model: string;
-  message: {
+  messages: {
     role: string;
     content: string;
   }[];
+}
+
+export class DiaryDto {
+  user_id: number;
+  title?: string;
+  content: string;
 }
