@@ -1,13 +1,31 @@
 import React, { useState } from "react";
 import { translateText } from "../features/translate/TranslateApi";
 import TextArea from "./TextArea";
+import ArrowButton from "./ArrowButton";
 
 const Translator: React.FC = () => {
   const [inputText, setInputText] = useState<string>('');
   const [outputText, setOutputText] = useState<string>('');
+  const [isJapanese, setIsJapanese] = useState<boolean>(true);
+
+  const labelText = (isInput: boolean) => {
+    if (isInput) {
+      return isJapanese ? 'Japanese' : 'English';
+    } else {
+      return !isJapanese ? 'Japanese' : 'English';
+    }
+  };
+
+  const changeTarget = () => {
+    // 翻訳対象を入れ替える
+    const originalInputText = inputText;
+    setInputText(outputText);
+    setOutputText(originalInputText);
+    setIsJapanese(!isJapanese);
+  }
 
   const handleTranslate = async () => {
-    await translateText(inputText, setOutputText);
+    await translateText(inputText, setOutputText, isJapanese);
   };
 
   return (
@@ -15,13 +33,13 @@ const Translator: React.FC = () => {
       <div className="flex mb-4">
         <TextArea
           text={inputText}
-          label="Input Text (Japanese)"
+          label={`Input Text (${labelText(true)})`}
           setText={setInputText}
         />
+        <ArrowButton callback={changeTarget} />
         <TextArea
-          // text={translatedText}
           text={outputText}
-          label="Output Text (English)"
+          label={`Output Text (${labelText(false)})`}
           setText={setOutputText}
           readOnly
         />

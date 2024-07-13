@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { API_URL } from "../constants";
+import { API_URL, DEVUSER } from "../constants";
 
 export interface DiaryState {
   status: "idle" | "loading" | "failed";
@@ -21,13 +21,19 @@ export const sendContent = createAsyncThunk<string, string>(
   "diary/sendContent",
   async (entry: string) => {
     const response = await axios.post(`${ENDPOINT}/register`, {
-      // 質問内容
-      messages: [
-        {
-          'role': 'user',
-          'content': entry
-        }
-      ],
+      diaryData: {
+        user_id: DEVUSER,
+        content: entry
+      },
+      reqToGpt: {
+        // 質問内容
+        messages: [
+          {
+            'role': 'user',
+            'content': entry
+          }
+        ],
+      }
     });
     // 回答の取得
     return response.data;
